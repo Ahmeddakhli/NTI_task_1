@@ -51,13 +51,19 @@ fclose($file);
       <img src="uploads/517535671636616170.png" class="card-img-top" >
       <div class="card-body">
         <h5 class="card-title"><?php    echo $values['products_name'];  ?></h5>
-        <p class="card-text"> <?php    echo $values['products_slug'];  ?></p>
+        <p class="card-text" > <?php    echo $values['products_slug'];  ?></p>
       </div>
       <ul class="list-group list-group-flush">
     <li class="list-group-item">id :: <?php    echo $values['products_id'];  ?></li>
     <li class="list-group-item">categories_name::  <?php    echo $values['categories_name'];  ?> </li>
+    <li class="list-group-item">products_quantity =  <?php    echo $values['products_quantity'];  ?></li>
+    <li class="list-group-item">products_model =  <?php    echo $values['products_model'];  ?></li>
+    <li class="list-group-item">products_image =  <?php    echo $values['products_image'];  ?></li>
+    <li class="list-group-item">products_date_added =  <?php    echo $values['products_date_added'];  ?></li>
+    <li class="list-group-item">products_liked =  <?php    echo $values['products_liked'];  ?></li>
     <li class="list-group-item">products_price =  <?php    echo $values['products_price'];  ?></li>
   </ul>
+  
     </div>
   </div>
 
