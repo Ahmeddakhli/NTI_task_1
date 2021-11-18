@@ -56,12 +56,20 @@ button:hover, a:hover {
 			$sql = "SELECT * FROM tasks";
 		 $tasks=	mysqli_query($db, $sql);
 		
-	
+	 
 
   if (isset($_GET['del_task'])) {
     $id = $_GET['del_task'];
-  
+    $filename = $_GET['path'];
     mysqli_query($db, "DELETE FROM tasks WHERE id=".$id);
+
+  
+    if (file_exists($filename)) {
+      unlink($filename);
+      echo 'File '.$filename.' has been deleted';
+    } else {
+      echo 'Could not delete '.$filename.', file does not exist';
+    }
     header('location: profile.php');
   }
 ?>
@@ -92,7 +100,12 @@ button:hover, a:hover {
                     background: #a52a2a;
                     padding: 1px 6px;
                     border-radius: 3px;
-                    text-decoration: none; " href="profile.php?del_task=<?php echo $row['id'] ?>">x</a> 
+                    text-decoration: none; " href="profile.php?del_task=<?php echo $row['id'] ?>&path=<?php echo $row['img']; ?>">x</a> 
+       <a   style="	color: white;
+                    background: blue;
+                    padding: 1px 6px;
+                    border-radius: 3px;
+                    text-decoration: none; " href="edit.php?id=<?php echo $row['id'] ?>">edit</a> 
 
       </div>
     </div>

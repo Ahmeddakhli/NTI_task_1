@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $errors ['addressErr']= "Invalid discription , discription must be a chars";
     }
     else {
-        if (strlen($_POST["disc"])<100) {
+        if (strlen($_POST["disc"])<10) {
             $errors ['addressErr']= "Invalid discription , discription must be at least 10 chars";
           } 
           else{
