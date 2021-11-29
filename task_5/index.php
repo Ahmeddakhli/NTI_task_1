@@ -1,76 +1,98 @@
 <?php
-// get Api
-$data =  file_get_contents('http://shopping.marwaradwan.org/api/Products/1/1/0/100/atoz');
-
- // open file to w
-$file =  fopen('data.txt','w')   or  die("unable to open file");
-
-    fwrite($file,$data);
-fclose($file);
-
- 
-// open file to read
-    $file =  fopen('data.txt','r')   or  die("unable to open file");
-
-        $file_data= fread($file,filesize('data.txt'));
-
-    fclose($file);
- 
-    
-   $dataArray = json_decode($file_data,true);
 
 ?>
-
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>User Data</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="ajax/ajax.js"></script>
+</head>
+<body>
+    <div class="container">
+	<p id="success"></p>
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+						<h2>Manage <b>Users</b></h2>
+					</div>
+				
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+						<th>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="selectAll">
+								<label for="selectAll"></label>
+							</span>
+						</th>
+						<th> NO</th>
+                        <th>NAME</th>
+                        <th>EMAIL</th>
+					            	
+                        <th>role</th>
+                    </tr>
+                </thead>
+				<tbody>
+				
+				<?php
+	// connect to database
+	$db = mysqli_connect("localhost", "root", "", "hospitall");
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>products</title>
-  </head>
-  <body>
-    <h1> all products </h1>
+      
+			$sql = "SELECT * ,roles.title
+      FROM users
+      INNER JOIN roles
+      ON users.id = roles.id  order by  users.id;";
+      
+		 $result=	mysqli_query($db, $sql);
+		
+	 
+     
 
-
- <div class="row row-cols-1 row-cols-md-3 g-4">
-
- <?php  
-
-   foreach ($dataArray['data'] as $values) {
-
- ?>
  
-  <div class="col-lg-3">
-    <div class="card">
-      <img src="uploads/517535671636616170.png" class="card-img-top" >
-      <div class="card-body">
-        <h5 class="card-title"><?php    echo $values['products_name'];  ?></h5>
-        <p class="card-text" > <?php    echo $values['products_slug'];  ?></p>
-      </div>
-      <ul class="list-group list-group-flush">
-    <li class="list-group-item">id :: <?php    echo $values['products_id'];  ?></li>
-    <li class="list-group-item">categories_name::  <?php    echo $values['categories_name'];  ?> </li>
-    <li class="list-group-item">products_quantity =  <?php    echo $values['products_quantity'];  ?></li>
-    <li class="list-group-item">products_model =  <?php    echo $values['products_model'];  ?></li>
-    <li class="list-group-item">products_image =  <?php    echo $values['products_image'];  ?></li>
-    <li class="list-group-item">products_date_added =  <?php    echo $values['products_date_added'];  ?></li>
-    <li class="list-group-item">products_liked =  <?php    echo $values['products_liked'];  ?></li>
-    <li class="list-group-item">products_price =  <?php    echo $values['products_price'];  ?></li>
-  </ul>
-  
+					$i=1;
+					while($row = mysqli_fetch_array($result)) {
+				?>
+				<tr id="<?php echo $row["id"]; ?>">
+				<td>
+							<span class="custom-checkbox">
+								<input type="checkbox" class="user_checkbox" data-user-id="<?php echo $row["id"]; ?>">
+								<label for="checkbox2"></label>
+							</span>
+						</td>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $row["name"]; ?></td>
+					<td><?php echo $row["email"]; ?></td>
+					<td><?php echo $row["title"]; ?></td>
+					
+		
+                    </td>
+				</tr>
+				<?php
+				$i++;
+				}
+				?>
+				</tbody>
+			</table>
+			
+        </div>
     </div>
-  </div>
+	
 
- <?php } ?>
-</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-  </body>
-</html>
+</body>
+</html>    
